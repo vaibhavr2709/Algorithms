@@ -2,6 +2,7 @@
 vector<ll> parent(maxn);
 vector<ll> depth(maxn);
 vector<vector<ll> > sparse;
+// sparse size helper - sparse.assign(maxn, vector<ll>((int)log(maxn)+10, -1));
 void find_depth(ll node, ll dep){
     depth[node]=dep;
     for(auto &x: v[node]){
