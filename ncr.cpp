@@ -5,7 +5,7 @@ ll inv(ll n, ll p){
 inline vector<ll> allinv(ll n, ll p){
     vector<ll> arr(n);
     arr[1]=1;
-    fr(i,2,n,1){
+    for(ll i=2; i<n; i++){
         arr[i] = (p - (p/i)*arr[p%i]%p)%p;
     }
     return arr;
@@ -24,7 +24,7 @@ vector<ll> inline allncr(ll n, ll p){
         facinv[i]=(facinv[i-1]*v[i])%p;
     rep1(i,n)
         facn = (facn*i)%p;
-    fr(i,1,n,1)
+    rep1(i,n-1)
         nci[i]=(((facn*facinv[i])%p)*facinv[n-i])%p;
     return nci;
 }
