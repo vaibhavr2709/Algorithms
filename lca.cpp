@@ -2,8 +2,8 @@
 vector<ll> parent(maxn);
 vector<ll> depth(maxn);
 vector<vector<ll> > sparse;
-// sparse size helper - sparse.assign(maxn, vector<ll>((int)log(maxn)+10, -1));
-// keep depth of root node as 1
+// sparse size helper - sparse.assign((int)log(maxn)+10, vector<ll>(maxn, -1));
+// IMPORTANT - depth of root node should be 1
 void find_depth(ll node, ll dep){
     depth[node]=dep;
     for(auto &x: v[node]){
@@ -15,11 +15,11 @@ void find_depth(ll node, ll dep){
 }
 void find_sparse(ll n){
     rep1(i,n)
-        sparse[i][0]=parent[i];
+        sparse[0][i]=parent[i];
     for(ll j=1; 1<<j <n; j++){
         rep1(i,n){
-            if(sparse[i][j-1] != -1)
-                sparse[i][j] = sparse[sparse[i][j-1]][j-1];
+            if(sparse[j-1][i] != -1)
+                sparse[j][i] = sparse[j-1][sparse[j-1][i]];
         }
     }
 }
@@ -28,12 +28,12 @@ ll query_lca(ll a, ll b){
         swap(a,b);
     for(ll i=20; i>=0; i--)
         if(depth[a]-(1<<i) >= depth[b])
-            a = sparse[a][i];
+            a = sparse[i][a];
     if(a==b)
         return a;
     for(ll i=20; i>=0; i--)
-        if(sparse[a][i] != -1 && sparse[a][i] != sparse[b][i])
-            a = sparse[a][i], b = sparse[b][i];
+        if(sparse[i][a] != -1 && sparse[i][a] != sparse[i][b])
+            a = sparse[i][a], b = sparse[i][b];
     return parent[a];
 }
 ll pth_ancestor(ll a, ll p){
@@ -42,7 +42,7 @@ ll pth_ancestor(ll a, ll p){
     ll c=0;
     while(p){
         if(p&1)
-            a = sparse[a][c];
+            a = sparse[c][a];
         p>>=1;
         c++;
     }
