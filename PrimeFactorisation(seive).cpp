@@ -2,10 +2,10 @@
 const ll seiveMaxn = 15000000;
 vector<ll> seive(seiveMaxn+1,0);
 void doSeive(){
-    for(ll i=2; i<=maxn; i++){
+    for(ll i=2; i<=seiveMaxn; i++){
         if(seive[i]==0){
             seive[i]=i;
-            for(ll j=i*i; j<=maxn; j+=i)
+            for(ll j=i*i; j<=seiveMaxn; j+=i)
                 seive[j]=i;
         }
     }
